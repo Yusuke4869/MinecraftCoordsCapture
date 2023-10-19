@@ -15,21 +15,31 @@ Windows で PC 全体にデフォルトパス (`C:\Program Files\Tesseract-OCR`)
 ## 使い方
 
 Python3 の環境が必要です。
+
 venv などの仮想環境を使用することを推奨します。
 
 ### venv を用いた仮想環境の構築 (Windows)
 
 ```bash
-$ python -m venv venv
-$ .\venv\Scripts\activate
+python -m venv venv
+.\venv\Scripts\activate
 ```
 
 ### インストール
 
+git を用いてクローンし、必要なライブラリをインストールします。
+
 ```bash
-$ git clone https://github.com/Yusuke4869/MinecraftCoordsCapture
-$ cd MinecraftCoordsCapture
-$ pip install -r requirements.txt
+git clone https://github.com/Yusuke4869/MinecraftCoordsCapture
+cd MinecraftCoordsCapture
+pip install -r requirements.txt
+```
+
+ページ上方の緑色の Code ボタンから、zip でダウンロードして解凍することもできます。
+
+```bash
+cd MinecraftCoordsCapture
+pip install -r requirements.txt
 ```
 
 ### 実行
@@ -37,12 +47,13 @@ $ pip install -r requirements.txt
 動画ファイルを引数に与えて実行します。
 
 ```bash
-$ python main.py video.mp4
+python main.py video.mp4
 ```
 
 ### オプション
 
 |短いオプション|長いオプション|実行内容|
+
 |:--|:--|:--|
 |`-c`|`--color`|カラーで画像解析を行います。設定しない場合はグレースケールで解析を行います。|
 |`-s`|`--strict`|グレースケールでの解析に加え、カラーでの解析も行い検出の精度を高めます。実行時間が大幅に増加します。|
