@@ -27,6 +27,8 @@ $ .\venv\Scripts\activate
 ### インストール
 
 ```bash
+$ git clone https://github.com/Yusuke4869/MinecraftCoordsCapture
+$ cd MinecraftCoordsCapture
 $ pip install -r requirements.txt
 ```
 
