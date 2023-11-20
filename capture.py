@@ -4,6 +4,7 @@ import time
 
 import cv2
 import pyocr
+from autocorrect import Speller
 
 from win_config import win_config
 from image import opencv2pil, imwrite
@@ -19,9 +20,12 @@ if len(tools) == 0:
 
 tool = tools[0]
 builder = pyocr.builders.TextBuilder(tesseract_layout=6)
+speller = Speller(lang="en")
 
 
-def capture(video_path: str, color: bool = False, strict: bool = False):
+def capture(
+    video_path: str, color: bool = False, strict: bool = False, spell: bool = False
+):
     video_title = os.path.splitext(os.path.basename(video_path))[0]
 
     capture = cv2.VideoCapture(video_path)
@@ -36,6 +40,7 @@ def capture(video_path: str, color: bool = False, strict: bool = False):
     )
 
     os.makedirs("./img", exist_ok=True)
+    os.makedirs(f"./img/{video_title}", exist_ok=True)
 
     i = 0
     count = 0
@@ -72,6 +77,8 @@ def capture(video_path: str, color: bool = False, strict: bool = False):
             else opencv2pil(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
         )
         txt = tool.image_to_string(img, lang="eng", builder=builder)
+        if spell:
+            txt = speller(txt)
 
         exists = False
         if "minecraft" in txt.lower():
@@ -80,6 +87,8 @@ def capture(video_path: str, color: bool = False, strict: bool = False):
         if not exists and strict:
             img = opencv2pil(cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY))
             txt = tool.image_to_string(img, lang="eng", builder=builder)
+            if spell:
+                txt = speller(txt)
 
             if "minecraft" in txt.lower():
                 exists = True
@@ -89,15 +98,15 @@ def capture(video_path: str, color: bool = False, strict: bool = False):
             if seconds - dir_time > 60:
                 dir_time = seconds
                 dir_name = f"{video_title}_{h:02d}{m:02d}{s:02d}"
-                os.makedirs(f"./img/{dir_name}", exist_ok=True)
+                os.makedirs(f"./img/{video_title}/{dir_name}", exist_ok=True)
                 imwrite(
-                    f"./img/{video_title}_{h:02d}{m:02d}{s:02d}.png",
+                    f"./img/{video_title}/{video_title}_{h:02d}{m:02d}{s:02d}.png",
                     frame,
                 )
 
             count += 1
             imwrite(
-                f"./img/{dir_name}/{video_title}_{h:02d}{m:02d}{s:02d}.png",
+                f"./img/{video_title}/{dir_name}/{video_title}_{h:02d}{m:02d}{s:02d}.png",
                 frame,
             )
 

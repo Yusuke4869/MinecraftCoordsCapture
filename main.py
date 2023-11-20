@@ -12,12 +12,15 @@ def main():
 
     color = False
     strict = False
+    spell = False
     if len(args) > 2:
         for arg in args[2:]:
-            if arg == "--color" or arg == "-c":
+            if arg == "--color":
                 color = True
-            elif arg == "--strict" or arg == "-s":
+            elif arg == "--strict":
                 strict = True
+            elif arg == "--spell":
+                spell = True
             else:
                 print(f"Unknown option: {arg}")
 
@@ -34,7 +37,7 @@ def main():
         )
         sys.exit(1)
 
-    capture(video_path, color, strict)
+    capture(video_path, color, strict, spell)
 
 
 if __name__ == "__main__":
